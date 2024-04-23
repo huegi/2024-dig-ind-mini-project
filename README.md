@@ -1,0 +1,1 @@
+# 2024-dig-ind-mini-project
