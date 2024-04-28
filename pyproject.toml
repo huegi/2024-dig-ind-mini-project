@@ -1,0 +1,133 @@
+[tool.poetry]
+name = "p8-python-playground"
+version = "0.1.0"
+description = ""
+authors = ["Mario Huegi <mario.huegi@students.fhnw.ch>"]
+readme = "README.md"
+
+
+[tool.poetry.dependencies]
+# Some packages, such as scipy, constrain their upper bound of Python versions they support.
+# Without also constraining the upper bound here, Poetry will not select those versions and will
+# result in an old version being resolved/locked.
+python = ">=3.12,<4.0"
+rich = "*"
+typer = { version = "*", extras = ["all"] }
+pandas = "^2.2.2"
+scipy = "^1.13.0"
+pvlib = "^0.10.4"
+matplotlib = "^3.8.4"
+ipykernel = "^6.29.4"
+ruff-lsp = "^0.0.53"
+jupyter = "^1.0.0"
+openpyxl = "^3.1.2"
+pyowm = "^3.3.0"
+srf-weather = "^0.1.1"
+
+[tool.poetry.group.nox.dependencies]
+nox-poetry = "*"
+
+[tool.poetry.group.test.dependencies]
+pytest = "*"
+pytest-cov = "*"
+pytest-randomly = "*"
+
+[tool.poetry.group.type_check.dependencies]
+mypy = "*"
+# As of mypy 0.900, mypy no longer bundles the stubs for third-party libraries that reside
+# in the typeshed project. Add these "types-" packages here if you depend on them in
+# requirements.in (e.g. types-requests).
+# See: http://mypy-lang.blogspot.com/2021/06/mypy-0900-released.html
+#      https://github.com/python/typeshed/tree/main/stubs
+
+[tool.poetry.group.lint.dependencies]
+ruff = "*"
+
+[tool.poetry.group.docs.dependencies]
+mkdocs-material = "*"
+mkdocs-htmlproofer-plugin = "*"
+mkdocstrings = { version = "*", extras = ["python"] }
+# Autodoc.
+mkdocs-gen-files = "*"
+mkdocs-literate-nav = "*"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.4"
+
+[tool.poetry.scripts]
+fact = "fact.cli:app"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+ignore_missing_imports = true
+strict = true
+# If certain strict config options are too pedantic for a project,
+# disable them selectively here by setting to false.
+
+[tool.ruff]
+line-length = 99
+target-version = "py38"
+src = ["src"]
+# Ruff will automatically exclude all files listed in .gitignore as well as common temporary Python
+# tool directories.
+# To exclude additional folders, use extend-exclude.
+
+[tool.ruff.lint]
+select = [
+    "F", # pyflakes
+    "E", # pycodestyle
+    "I", # isort
+    "N", # pep8-naming
+    "UP", # pyupgrade
+    "RUF", # ruff
+    "B", # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "ISC", # flake8-implicit-str-concat
+    "PTH", # flake8-use-pathlib
+    "SIM", # flake8-simplify
+    "TID", # flake8-tidy-imports
+]
+# TODO: Remove ISC001 ignore when formatter updated: https://github.com/astral-sh/ruff/issues/8272
+extend-ignore = ["RUF005", "RUF012", "ISC001"]
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
+split-on-trailing-comma = false
+# For non-src directory projects, explicitly set top level package names:
+# known-first-party = ["my-app"]
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["typer.Argument"]
+
+[tool.pytest.ini_options]
+addopts = [
+    "--strict-config",
+    "--strict-markers",
+]
+xfail_strict = true
+filterwarnings = [
+    # When running tests, treat warnings as errors (e.g. -Werror).
+    # See: https://docs.pytest.org/en/latest/reference/reference.html#confval-filterwarnings
+    "error",
+    # Add additional warning supressions as needed here. For example, if a third-party library
+    # is throwing a deprecation warning that needs to be fixed upstream:
+    # "ignore::DeprecationWarning:typer",
+]
+
+[tool.coverage.run]
+branch = true
+
+# To globally exclude additional code blocks from code coverage reporting, see:
+# https://coverage.readthedocs.io/en/latest/excluding.html#advanced-exclusion
+#[tool.coverage.report]
+#exclude_also = [
+#    "if TYPE_CHECKING:",
+#    "raise NotImplementedError",
+#]

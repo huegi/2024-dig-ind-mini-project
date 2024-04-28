@@ -1,0 +1,31 @@
+{
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "always"
+    },
+    "editor.formatOnType": true, // Auto-indent from Pylance.
+    "editor.rulers": [
+        99
+    ],
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/.venv": true
+    },
+    "mypy.runUsingActiveInterpreter": true,
+    "mypy.targets": [
+        "./20240415_prag_and_slides",
+    ],
+    "mypy.configFile": "./pyproject.toml",
+    "ruff.lint.args": [
+        "--config=./pyproject.toml"
+    ],
+    "ruff.interpreter": [
+        "python"
+    ],
+}
